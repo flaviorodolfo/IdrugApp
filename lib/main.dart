@@ -76,7 +76,7 @@ class WelcomeScreen extends StatelessWidget {
           doneText: _getButton("Começar"),
           nextText: _getButton("Avançar"),
       //    skipText: _getButton("Pular"),
-          fullTransition: 150,
+          fullTransition: 250,
           pageButtonTextSize: 20,
           onTapDoneButton: (){
                 showDialog(context: context,

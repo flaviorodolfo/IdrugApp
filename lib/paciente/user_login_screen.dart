@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:idrug/paciente/paciente_logado.scren.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:idrug/paciente/paciente_logado.screen.dart';
 import 'package:idrug/util/validadores.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class UserLoginScreen extends StatefulWidget {
   @override
@@ -11,11 +11,13 @@ class UserLoginScreen extends StatefulWidget {
     return new UserLoginScreenState();
   }
 }
-
-
+final regex = {
+  '#': new RegExp(r'[0-9a-zA-Z]')
+};
 class UserLoginScreenState extends State<UserLoginScreen>{
-  var cpfController = TextEditingController();
-  var senhaController = TextEditingController();
+
+  var cpfController = new MaskedTextController(mask: '000.000.000-00');
+  var senhaController = new MaskedTextController(mask: '################',translator: regex);
   bool cpfControll = true;
   bool senhaControll = true;
 
@@ -35,7 +37,14 @@ class UserLoginScreenState extends State<UserLoginScreen>{
 
         behavior: HitTestBehavior.translucent,
         onTap: () {
+          String text = cpfController.text;
+          cpfControll = validarCPF(text);
+          if(text.length == 0)
+            cpfControll = true;
+          senhaControll = validarSenha(senhaController.text);
           FocusScope.of(context).requestFocus(new FocusNode());
+          setState(() => {});
+
         },
 
         child: Container(
@@ -64,20 +73,11 @@ class UserLoginScreenState extends State<UserLoginScreen>{
                              Padding(
                                padding: EdgeInsets.only(top:5,right: 35,left: 35),
                                child: TextField(
-                                 focusNode: focusCPF,
-                                 autocorrect: false,
+                                focusNode: focusCPF,
                                  controller: cpfController,
                                  keyboardType: TextInputType.number,
-                                   inputFormatters: [
-                                     new MaskTextInputFormatter(
-                                         mask: '###.###.###-##',
-                                         filter:
-                                         { "#": RegExp(r'[0-9]')
-                                         }
-                                         )
-                                   ],
+
                                   onSubmitted: (text){
-                                   cpfControll = false;
                                    cpfControll  = validarCPF(text);
                                    if(cpfControll)
                                      FocusScope.of(context).requestFocus(focusSenha);
@@ -116,19 +116,15 @@ class UserLoginScreenState extends State<UserLoginScreen>{
                                  focusNode: focusSenha,
                                  textInputAction: TextInputAction.go,
 
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(16),
-                                new MaskTextInputFormatter(mask: '################', filter: { "#": RegExp(r'[0-9a-zA-Z]') }),
-                              ],
+
                                   obscureText: true,
 
                                  onSubmitted: (text){
-                                   if(text.length > 7 && text.length < 17)
-                                     senhaControll = true;
-                                   else
-                                     senhaControll = false;
+                                   senhaControll = validarSenha(text);
                                    if(text.length == 0)
                                      senhaControll = true;
+                                   if(!senhaControll)
+                                     FocusScope.of(context).requestFocus(focusSenha);
                                    setState(() {
 
                                    });
@@ -163,6 +159,14 @@ class UserLoginScreenState extends State<UserLoginScreen>{
 
                                   splashColor: Colors.black,
                                   onPressed: (){
+                                    String senha, cpf;
+                                    senha =  senhaController.text;
+                                    cpf = cpfController.text;
+                                    senhaControll = validarSenha(senha);
+                                    cpfControll = validarCPF(cpf);
+                                    if(!cpfControll || !senhaControll)
+                                      setState(()=>{});
+                                    //else
                                     Navigator.of(context).pushAndRemoveUntil(
                                         MaterialPageRoute(builder: (context) => PacienteLogado()),
                                             (Route<dynamic> route) => false);
