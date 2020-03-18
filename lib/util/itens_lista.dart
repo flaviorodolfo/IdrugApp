@@ -67,6 +67,7 @@ Card _montarCardDesejos(Desejo desejo,List<Desejo> lista){
 
 
     child: InkWell(
+
       onTap: (){
         _removeFromList(desejo,lista);
         print("kkk");
