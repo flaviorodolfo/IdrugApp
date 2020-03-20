@@ -1,25 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:idrug/paciente/paciente_logado.screen.dart';
+import 'package:idrug/paciente/tela_criar_conta.dart';
+import 'package:idrug/paciente/tela_usuario_logado.dart';
 import 'package:idrug/util/validadores.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
-class UserLoginScreen extends StatefulWidget {
+class UsuarioLoginTela extends StatefulWidget {
   @override
-  UserLoginScreenState createState() {
-    return new UserLoginScreenState();
+  _UsuarioLoginTelaState createState() {
+    return new _UsuarioLoginTelaState();
   }
 }
 final regex = {
   '#': new RegExp(r'[0-9a-zA-Z]')
 };
-class UserLoginScreenState extends State<UserLoginScreen>{
+class _UsuarioLoginTelaState extends State<UsuarioLoginTela>{
 
   var cpfController = new MaskedTextController(mask: '000.000.000-00');
   var senhaController = new MaskedTextController(mask: '################',translator: regex);
   bool cpfControll = true;
   bool senhaControll = true;
+  bool secretText = true;
 
 
 
@@ -39,9 +41,9 @@ class UserLoginScreenState extends State<UserLoginScreen>{
         onTap: () {
           String text = cpfController.text;
           cpfControll = validarCPF(text);
-          if(text.length == 0)
-            cpfControll = true;
+            cpfControll = text.length == 0;
           senhaControll = validarSenha(senhaController.text);
+          senhaControll = senhaController.text.length == 0;
           FocusScope.of(context).requestFocus(new FocusNode());
           setState(() => {});
 
@@ -92,6 +94,7 @@ class UserLoginScreenState extends State<UserLoginScreen>{
                                  },
 
                                  decoration: InputDecoration(
+                                   prefixIcon: Icon(Icons.person),
                                    errorText: cpfControll ? null:"CPF inválido",
                                    errorStyle: TextStyle(
                                      color: Colors.white,
@@ -117,7 +120,7 @@ class UserLoginScreenState extends State<UserLoginScreen>{
                                  textInputAction: TextInputAction.go,
 
 
-                                  obscureText: true,
+                                  obscureText: secretText,
 
                                  onSubmitted: (text){
                                    senhaControll = validarSenha(text);
@@ -130,7 +133,13 @@ class UserLoginScreenState extends State<UserLoginScreen>{
                                    });
                                  },
                                   decoration: InputDecoration(
-
+                                    prefixIcon: Icon(Icons.lock),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        secretText? Icons.visibility_off:Icons.visibility
+                                      ),
+                                      onPressed: ()=> setState(() {secretText = !secretText;}),
+                                    ),
                                     filled: true,
                                     fillColor: Colors.white,
                                    errorText: senhaControll ? null: "A senha deve ter entre 8 e 16 dígitos",
@@ -192,6 +201,8 @@ class UserLoginScreenState extends State<UserLoginScreen>{
 
                                   splashColor: Colors.black,
                                   onPressed: (){
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context)=> CriarContaTela()));
 
                                   },
                                   padding: EdgeInsets.only(top: 12,bottom: 12),

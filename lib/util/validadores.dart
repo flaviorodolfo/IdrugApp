@@ -41,3 +41,12 @@ String _formatCPF(List<int> n) =>
 bool validarSenha(String senha){
   return senha.length >7 && senha.length <17;
 }
+
+
+validarEmail(text) {
+  return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(text);
+}
+
+bool validarNome(text){
+  return RegExp('[a-zA-Z] [a-zA-Z]').hasMatch(text);
+}

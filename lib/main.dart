@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:idrug/paciente/user_login_screen.dart';
+import 'package:idrug/paciente/tela_usuario_login.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 
@@ -19,7 +19,6 @@ FlatButton _getButton(String text){
       borderRadius: new BorderRadius.circular(12.0),
     ),
     disabledColor: Colors.white,
-
     disabledTextColor: Colors.purple,
     child: Text(
       text.toUpperCase(),
@@ -30,14 +29,13 @@ FlatButton _getButton(String text){
 
   );
 }
-
-class WelcomeScreen extends StatelessWidget {
-  final pages =[
+_getPages(BuildContext context){
+   return [
     PageViewModel(
       pageColor: Colors.deepPurple,
       title: Text("Lorem Ipsum" ),
       body: Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et purus ipsum. In aliquet semper sagittis. Nulla porta, tellus ."),
-      mainImage: Image.asset("assets/images/img.png",height: 285, width: 285),
+      mainImage: Image.asset("assets/images/img.png",height: MediaQuery.of(context).size.height*0.5 , width: MediaQuery.of(context).size.height*0.5),
       titleTextStyle: TextStyle( color: Colors.white),
       bodyTextStyle: TextStyle( color: Colors.white),
     ),
@@ -45,7 +43,7 @@ class WelcomeScreen extends StatelessWidget {
       pageColor: Colors.deepPurpleAccent,
       title: Text("Lorem Ipsum"),
       body: Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et purus ipsum. In aliquet semper sagittis. Nulla porta, tellus vel ."),
-      mainImage: Image.asset("assets/images/img.png",height: 285, width: 285),
+     // mainImage: Image.asset("assets/images/img.png",height: MediaQuery.of(context).size.width*0.2 , width: MediaQuery.of(context).size.width*0.5),
       titleTextStyle: TextStyle( color: Colors.white),
       bodyTextStyle: TextStyle( color: Colors.white),
     ),
@@ -53,11 +51,13 @@ class WelcomeScreen extends StatelessWidget {
       pageColor: Colors.purple,
       title: Text("Lorem Ipsum"),
       body: Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et purus ipsum. In aliquet semper sagittis. Nulla porta, tellus vel "),
-      mainImage: Image.asset("assets/images/img.png",height: 285, width: 285),
+      mainImage: Image.asset("assets/images/img.png",height: MediaQuery.of(context).size.height*0.2 , width: MediaQuery.of(context).size.height*0.5),
       titleTextStyle: TextStyle( color: Colors.white),
       bodyTextStyle: TextStyle( color: Colors.white),
     ),
   ];
+}
+class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -68,7 +68,7 @@ class WelcomeScreen extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Builder(
         builder: (context) => IntroViewsFlutter(
-          pages,
+          _getPages(context),
           showNextButton: true,
           showBackButton: true,
           showSkipButton: false,
@@ -84,8 +84,6 @@ class WelcomeScreen extends StatelessWidget {
                     AlertDialog(
                       title: Text("Como deseja continuar?"),
                       backgroundColor: Colors.white,
-                      content: Text(
-                          "Algum texto aqui?"),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)
                       ),
@@ -95,7 +93,7 @@ class WelcomeScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (BuildContext context) => UserLoginScreen(),
+                                  builder: (BuildContext context) => UsuarioLoginTela(),
                               ),
                             );
                           },
@@ -104,6 +102,7 @@ class WelcomeScreen extends StatelessWidget {
                           child: Text(
                             "Estou em busca de medicamentos",
                             style: TextStyle(
+                              color: Colors.purple,
                               fontSize: 15.0,
                             ),
                           ),
@@ -116,6 +115,7 @@ class WelcomeScreen extends StatelessWidget {
                           child: Text(
                             "Sou responsável por uma farmácia",
                             style: TextStyle(
+                              color: Colors.green,
                               fontSize: 15.0,
                             ),
                           ),
