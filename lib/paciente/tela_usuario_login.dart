@@ -92,14 +92,15 @@ class _UsuarioLoginTelaState extends State<UsuarioLoginTela>{
 
                                     });
                                  },
-
                                  decoration: InputDecoration(
+
                                    prefixIcon: Icon(Icons.person),
                                    errorText: cpfControll ? null:"CPF inválido",
                                    errorStyle: TextStyle(
                                      color: Colors.white,
                                      fontWeight: FontWeight.bold,
                                    ),
+
                                    filled:true,
                                     fillColor: Colors.white,
                                    labelText: 'CPF',
@@ -115,13 +116,12 @@ class _UsuarioLoginTelaState extends State<UsuarioLoginTela>{
                              Padding(
                                padding: EdgeInsets.only(right: 35,top: 12,left: 35),
                                child: TextField(
+
                                  controller: senhaController,
                                  focusNode: focusSenha,
                                  textInputAction: TextInputAction.go,
 
-
                                   obscureText: secretText,
-
                                  onSubmitted: (text){
                                    senhaControll = validarSenha(text);
                                    if(text.length == 0)
@@ -133,6 +133,7 @@ class _UsuarioLoginTelaState extends State<UsuarioLoginTela>{
                                    });
                                  },
                                   decoration: InputDecoration(
+                                    border: InputBorder.none,
                                     prefixIcon: Icon(Icons.lock),
                                     suffixIcon: IconButton(
                                       icon: Icon(

@@ -10,16 +10,19 @@ import 'package:intro_views_flutter/Models/page_view_model.dart';
 void main()=>runApp(WelcomeScreen());
 
 
-FlatButton _getButton(String text){
-  return  FlatButton(
-
-    splashColor: Colors.black,
-    padding: EdgeInsets.only(top: 12,bottom: 12),
+ _getButton(String text){
+  return  RaisedButton(
+ //   padding: EdgeInsets.only(top: 12,bottom: 12),
+    highlightColor: Colors.white,
+    splashColor: Colors.transparent,
     shape: new RoundedRectangleBorder(
-      borderRadius: new BorderRadius.circular(12.0),
+     // side: new BorderSide(color: Colors.red, width: 1.7),
+      borderRadius: BorderRadius.circular(30),
+
     ),
-    disabledColor: Colors.white,
-    disabledTextColor: Colors.purple,
+ //   disabledColor: Colors.purple,
+    disabledTextColor: Colors.white,
+
     child: Text(
       text.toUpperCase(),
       style: TextStyle(
@@ -29,32 +32,71 @@ FlatButton _getButton(String text){
 
   );
 }
-_getPages(BuildContext context){
+_getPages(){
    return [
     PageViewModel(
       pageColor: Colors.deepPurple,
-      title: Text("Lorem Ipsum" ),
-      body: Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et purus ipsum. In aliquet semper sagittis. Nulla porta, tellus ."),
-      mainImage: Image.asset("assets/images/img.png",height: MediaQuery.of(context).size.height*0.5 , width: MediaQuery.of(context).size.height*0.5),
+      title: Text("Lorem Ipsum",
+      style: TextStyle(
+        fontSize: 33,
+        ),
+      ),
+      bubbleBackgroundColor: Colors.purple,
+      body: Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et purus ipsum. In aliquet semper sagittis. Nulla porta, tellus .",
+        style: TextStyle(
+          fontSize: 19,
+        ),
+      ),
+//      body: ListView(
+//
+//          children:<Widget>[
+//            Text("Text lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et purus ipsum."
+//              " In aliquet semper sagittis. Nulla porta, tellus ."),
+//          ],
+//      ),
+      mainImage: Image.asset("assets/images/img.png",height: 300 , width: 300),
       titleTextStyle: TextStyle( color: Colors.white),
+
+
       bodyTextStyle: TextStyle( color: Colors.white),
-    ),
-    PageViewModel(
+    ), PageViewModel(
       pageColor: Colors.deepPurpleAccent,
-      title: Text("Lorem Ipsum"),
-      body: Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et purus ipsum. In aliquet semper sagittis. Nulla porta, tellus vel ."),
-     // mainImage: Image.asset("assets/images/img.png",height: MediaQuery.of(context).size.width*0.2 , width: MediaQuery.of(context).size.width*0.5),
+       title: Text("Lorem Ipsum",
+         style: TextStyle(
+           fontSize: 33,
+         ),
+       ),
+      bubbleBackgroundColor: Colors.white,
+      body: Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et purus ipsum. In aliquet semper sagittis. Nulla porta, tellus .",
+      style: TextStyle(
+        fontSize: 20,
+        ),
+      ),
+      mainImage: Image.asset("assets/images/img.png",height: 300 , width: 300),
       titleTextStyle: TextStyle( color: Colors.white),
+
+
       bodyTextStyle: TextStyle( color: Colors.white),
-    ),
-    PageViewModel(
+    ), PageViewModel(
       pageColor: Colors.purple,
-      title: Text("Lorem Ipsum"),
-      body: Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et purus ipsum. In aliquet semper sagittis. Nulla porta, tellus vel "),
-      mainImage: Image.asset("assets/images/img.png",height: MediaQuery.of(context).size.height*0.2 , width: MediaQuery.of(context).size.height*0.5),
+       title: Text("Lorem Ipsum",
+         style: TextStyle(
+           fontSize: 33,
+         ),
+       ),
+      bubbleBackgroundColor: Colors.deepPurple,
+       body: Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et purus ipsum. In aliquet semper sagittis. Nulla porta, tellus .",
+         style: TextStyle(
+           fontSize: 20,
+         ),
+       ),
+      mainImage: Image.asset("assets/images/img.png",height: 300 , width: 300),
       titleTextStyle: TextStyle( color: Colors.white),
+
+
       bodyTextStyle: TextStyle( color: Colors.white),
     ),
+
   ];
 }
 class WelcomeScreen extends StatelessWidget {
@@ -68,7 +110,7 @@ class WelcomeScreen extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Builder(
         builder: (context) => IntroViewsFlutter(
-          _getPages(context),
+          _getPages(),
           showNextButton: true,
           showBackButton: true,
           showSkipButton: false,
