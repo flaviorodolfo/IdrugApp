@@ -98,7 +98,7 @@ _getPages(){
    return [
     PageViewModel(
       pageColor: Colors.deepPurple,
-      title: Text("Lorem Ipsum",
+      title: Text("iDRUG",
       style: TextStyle(
         fontSize: 33,
         ),
@@ -123,7 +123,7 @@ _getPages(){
       bodyTextStyle: TextStyle( color: Colors.white),
     ), PageViewModel(
       pageColor: Colors.deepPurpleAccent,
-       title: Text("Lorem Ipsum",
+       title: Text("iDRUG",
          style: TextStyle(
            fontSize: 33,
          ),
@@ -141,7 +141,7 @@ _getPages(){
       bodyTextStyle: TextStyle( color: Colors.white),
     ), PageViewModel(
       pageColor: Colors.purple,
-       title: Text("Lorem Ipsum",
+       title: Text("iDRUG",
          style: TextStyle(
            fontSize: 33,
          ),
