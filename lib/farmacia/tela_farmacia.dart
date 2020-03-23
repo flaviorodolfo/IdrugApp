@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cpf_cnpj_validator/cnpj_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,10 +15,10 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-class UsuarioLoginTela extends StatefulWidget {
+class FarmaciaTela extends StatefulWidget {
   @override
-  _UsuarioLoginTelaState createState() {
-    return new _UsuarioLoginTelaState();
+  _FarmaciaTelaState createState() {
+    return new _FarmaciaTelaState();
   }
 }
 final regex = {
@@ -34,15 +35,15 @@ _getLoading(){
 }
 
 
-class _UsuarioLoginTelaState extends State<UsuarioLoginTela>{
+class _FarmaciaTelaState extends State<FarmaciaTela>{
 
-  var cpfController = new MaskedTextController(mask: '000.000.000-00');
+  var cnpjController = new MaskedTextController(mask: '000.000.000/000-00');
   var senhaController = new MaskedTextController(mask: '################',translator: regex);
-  bool cpfControll = true;
+  bool cnpjControll = true;
   bool senhaControll = true;
   bool secretText = true;
   final focusSenha = FocusNode();
-  final focusCPF = FocusNode();
+  final focusCNPJ = FocusNode();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool loading = false  ;
 
@@ -59,9 +60,9 @@ class _UsuarioLoginTelaState extends State<UsuarioLoginTela>{
 
         behavior: HitTestBehavior.translucent,
         onTap: () {
-          String text = cpfController.text;
-          cpfControll = validarCPF(text);
-            cpfControll = text.length == 0;
+          String text = cnpjController.text;
+          cnpjControll = CNPJValidator.isValid(text);
+            cnpjControll = text.length == 0;
           senhaControll = validarSenha(senhaController.text);
           senhaControll = senhaController.text.length == 0;
           FocusScope.of(context).requestFocus(new FocusNode());
@@ -76,7 +77,7 @@ class _UsuarioLoginTelaState extends State<UsuarioLoginTela>{
                   height: 35,
                 ),
                 Image.asset(
-                    'assets/images/img2.png',
+                    'assets/images/img.png',
                     fit: BoxFit.fill,
                     height: 100,
                     color: Colors.blue,
@@ -95,19 +96,19 @@ class _UsuarioLoginTelaState extends State<UsuarioLoginTela>{
                              Padding(
                                padding: EdgeInsets.only(top:5,right: 35,left: 35),
                                child: TextField(
-                                focusNode: focusCPF,
-                                 controller: cpfController,
+                                focusNode: focusCNPJ,
+                                 controller: cnpjController,
                                  keyboardType: TextInputType.number,
 
                                   onSubmitted: (text){
-                                   cpfControll  = validarCPF(text);
-                                   if(cpfControll)
+                                   cnpjControll  = CNPJValidator.isValid(text);
+                                   if(cnpjControll)
                                      FocusScope.of(context).requestFocus(focusSenha);
                                    else{
-                                     FocusScope.of(context).requestFocus(focusCPF);
+                                     FocusScope.of(context).requestFocus(focusCNPJ);
                                    }
                                    if(text.length == 0)
-                                     cpfControll = true;
+                                     cnpjControll = true;
                                     setState(() {
 
                                     });
@@ -115,7 +116,7 @@ class _UsuarioLoginTelaState extends State<UsuarioLoginTela>{
                                  decoration: InputDecoration(
 
                                    prefixIcon: Icon(Icons.person),
-                                   errorText: cpfControll ? null:"CPF inválido",
+                                   errorText: cnpjControll ? null:"CNPJ inválido",
                                    errorStyle: TextStyle(
                                      color: Colors.white,
                                      fontWeight: FontWeight.bold,
@@ -123,7 +124,7 @@ class _UsuarioLoginTelaState extends State<UsuarioLoginTela>{
 
                                    filled:true,
                                     fillColor: Colors.white,
-                                   labelText: 'CPF',
+                                   labelText: 'CNPJ',
                                    labelStyle: TextStyle(
                                      color: Colors.black,
                                      fontWeight: FontWeight.bold,
@@ -189,26 +190,26 @@ class _UsuarioLoginTelaState extends State<UsuarioLoginTela>{
 
                                   splashColor: Colors.black,
                                   onPressed: () async {
-                                    String senha, cpf;
+                                    String senha, cnpj;
                                     senha =  senhaController.text;
-                                    cpf = cpfController.text;
+                                    cnpj = cnpjController.text;
                                     senhaControll = validarSenha(senha);
-                                    cpfControll = validarCPF(cpf);
+                                    cnpjControll = CNPJValidator.isValid(cnpj);
                                     Response r;
-                                    if(!cpfControll || !senhaControll)
+                                    if(!cnpjControll || !senhaControll)
                                       setState(()=>{});
                                     else {
                                       setState(() {
                                         loading = true;
                                       });
                                       r = await validarUsuario(
-                                          cpf.replaceAll("-", "").replaceAll(
+                                          cnpj.replaceAll("-", "").replaceAll(
                                               ".", ""), senha);
                                       setState(() {
                                         loading = false;
                                       });
                                     }
-                                    if(r == null && !cpfControll && !senhaControll)
+                                    if(r == null)
                                       _scaffoldKey.currentState.showSnackBar(SnackBar(
                                         content: Text("Por favor, verifique sua conexão com a internet."),
                                         backgroundColor: Colors.red,
@@ -248,36 +249,6 @@ class _UsuarioLoginTelaState extends State<UsuarioLoginTela>{
                                 ),
                               ),
                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 55,right:55,bottom: 10),
-                              child:SizedBox(
-                                width: double.infinity,
-                                child: FlatButton(
-
-                                  splashColor: Colors.black,
-                                  onPressed: (){
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context)=> CriarContaTela()));
-
-                                  },
-                                  padding: EdgeInsets.only(top: 12,bottom: 12),
-                                  shape: new RoundedRectangleBorder(
-                                    borderRadius: new BorderRadius.circular(12.0),
-                                  ),
-                                  color: Colors.deepPurple,
-                                  textColor: Colors.white,
-                                  child: Text(
-                                    "Cadastrar",
-                                    style: TextStyle(
-                                      fontSize: 22.0,
-                                    ),
-                                  ),
-
-                                ),
-                              ),
-                            ),
-
-
                            ],
                          ),
                      ),

@@ -1,26 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:idrug/util/itens_lista.dart';
+import 'package:idrug/to/DoacaoTO.dart';
+import 'package:intl/intl.dart';
 
 
 
 class ListaDoacoesRecebidas extends StatefulWidget {
-  var doacoesRecebidas = <DoacoesRecebidas>[];
+   List<DoacaoTO> doacoes;
 
-  ListaDoacoesRecebidas({Key key, @required this.doacoesRecebidas}) : super(key: key);
+  ListaDoacoesRecebidas({Key key, @required this.doacoes}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _ListaDoacoesRecebidasState(doacoesRecebidas: doacoesRecebidas);
+    return _ListaDoacoesRecebidasState(doacoes: doacoes);
   }
 
 }
 
 class _ListaDoacoesRecebidasState extends State<ListaDoacoesRecebidas>{
-  var doacoesRecebidas = <DoacoesRecebidas>[];
+  List<DoacaoTO> doacoes;
 
-  _ListaDoacoesRecebidasState({@required this.doacoesRecebidas}) ;
+  _ListaDoacoesRecebidasState({@required this.doacoes}) ;
 
 
   @override
@@ -29,7 +30,7 @@ class _ListaDoacoesRecebidasState extends State<ListaDoacoesRecebidas>{
     return ListView.builder(
 
       padding: EdgeInsets.all(10),
-      itemCount: doacoesRecebidas.length,
+      itemCount: doacoes.length,
       itemBuilder: (BuildContext context, int index) {
         return Card(
           child: Container(
@@ -40,7 +41,7 @@ class _ListaDoacoesRecebidasState extends State<ListaDoacoesRecebidas>{
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  doacoesRecebidas[index].nomeMedicamento,
+                  doacoes[index].produto,
                   style: TextStyle(
                     fontSize: 16.0,
                     color: Colors.black,
@@ -50,7 +51,7 @@ class _ListaDoacoesRecebidasState extends State<ListaDoacoesRecebidas>{
                   height: 5.0,
                 ),
                 Text(
-                  doacoesRecebidas[index].nomeFarmacia,
+                  doacoes[index].dosagem,
                   style: TextStyle(
                     fontSize: 14.0,
                     color: Colors.grey,
@@ -59,18 +60,18 @@ class _ListaDoacoesRecebidasState extends State<ListaDoacoesRecebidas>{
                 SizedBox(
                   height: 5.0,
                 ),
-                Text(
-                  doacoesRecebidas[index].endereco,
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.grey,
-                  ),
-                ),
+//                Text(
+//                  doacoesRecebidas[index].endereco,
+//                  style: TextStyle(
+//                    fontSize: 14.0,
+//                    color: Colors.grey,
+//                  ),
+//                ),
                 SizedBox(
                   height: 5.0,
                 ),
                 Text(
-                  doacoesRecebidas[index].dataDoacao,
+                  "Coletado no dia "+DateFormat("dd/MM/yyyy").format(DateTime.parse(doacoes[index].data.replaceAll("[UTC]", ""))),
                   style: TextStyle(
                     fontSize: 14.0,
                     color: Colors.grey,

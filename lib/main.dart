@@ -1,13 +1,75 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:idrug/paciente/tela_usuario_logado.dart';
 import 'package:idrug/paciente/tela_usuario_login.dart';
+import 'package:idrug/to/paciente_to.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main()=>runApp(WelcomeScreen());
+import 'farmacia/tela_farmacia.dart';
+
+void main()=>runApp(MyApp());
+
+
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => new _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  bool loaded = false;
+  PacienteTO paciente;
+
+  Future<void> carregarDados() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('user')!= null) {
+      if(prefs.getString('user').contains("cpf"))
+        paciente = PacienteTO.fromJson(jsonDecode(prefs.getString('user')));
+      loaded = true;
+    }
+    else{
+
+    }
+
+  }
+  _getClassLoader(){
+    return
+    PacienteLogado(paciente);
+  }
+
+  Widget build(BuildContext context) {
+
+    return MaterialApp(
+      color: Colors.purple,
+      debugShowCheckedModeBanner: false,
+      home:  new FutureBuilder(
+          future: carregarDados(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Scaffold(
+                  backgroundColor: Colors.purple,
+                  body: Center(child: CircularProgressIndicator())
+              );
+            } else {
+              return loaded?
+                  _getClassLoader():
+                    WelcomeScreen();
+
+
+            }
+          }
+          ),
+    );
+  }
+}
+
 
 
  _getButton(String text){
@@ -42,7 +104,7 @@ _getPages(){
         ),
       ),
       bubbleBackgroundColor: Colors.purple,
-      body: Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et purus ipsum. In aliquet semper sagittis. Nulla porta, tellus .",
+      body: Text("Bem Vindo(a) ao iDRUG ",
         style: TextStyle(
           fontSize: 19,
         ),
@@ -67,7 +129,7 @@ _getPages(){
          ),
        ),
       bubbleBackgroundColor: Colors.white,
-      body: Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et purus ipsum. In aliquet semper sagittis. Nulla porta, tellus .",
+      body: Text("O iDRUG é um aplicativo que faz a conexão entre a farmácia que quer doar o medicamento e você, que precisa do mesmo, sem custo nenhum.",
       style: TextStyle(
         fontSize: 20,
         ),
@@ -85,7 +147,7 @@ _getPages(){
          ),
        ),
       bubbleBackgroundColor: Colors.deepPurple,
-       body: Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et purus ipsum. In aliquet semper sagittis. Nulla porta, tellus .",
+       body: Text("Cadastre o medicamento que tem interesse segundo a receita médica.\n  Lembre-se: a automedicação faz mal a saúde.\nConsulte seu médico ou Farmacêutico para o melhor uso do medicamento .",
          style: TextStyle(
            fontSize: 20,
          ),
@@ -99,6 +161,9 @@ _getPages(){
 
   ];
 }
+
+
+
 class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -151,6 +216,14 @@ class WelcomeScreen extends StatelessWidget {
                         ),
                         FlatButton(
                           onPressed: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) => FarmaciaTela(),
+                              ),
+                            );
+
+
                           },
                           padding: EdgeInsets.only(top: 12,bottom: 12),
                           textColor: Colors.blue,

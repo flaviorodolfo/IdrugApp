@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:http/http.dart';
+import 'package:idrug/cliente/cadastrar_paciente.dart';
+
 
 import 'package:idrug/util/validadores.dart';
+import 'package:intl/intl.dart';
 
 class CriarContaTela extends StatefulWidget {
   @override
@@ -32,7 +36,46 @@ final regex = {
   '#': new RegExp(r'[0-9a-zA-Z]'),
 };
 
+
+void showProcessingDialog(BuildContext context) async{
+  return showDialog(
+
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context){
+
+        return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+            content: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: 100,
+                    maxWidth: 25,
+                  ),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(),
+                      SizedBox(height: 15,),
+                      Text("Realizando Cadastro...",
+                          style: TextStyle(
+                              fontFamily: "OpenSans",
+                              color:  Color(0xFF5B6978)
+                          )
+                      )
+                    ]
+                )
+            )
+
+
+        );
+      }
+  );
+}
+
 class _CriarContaTelaState extends State<CriarContaTela> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   var nomeController = new TextEditingController();
   var cpfController = new MaskedTextController(mask: '000.000.000-00');
   var dateController = new MaskedTextController(mask: '00/00/0000');
@@ -58,6 +101,7 @@ class _CriarContaTelaState extends State<CriarContaTela> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.purple,
         centerTitle: true,
@@ -262,6 +306,7 @@ class _CriarContaTelaState extends State<CriarContaTela> {
             ),
             TextField(
               focusNode: focusn4,
+              controller: confirmemailController,
               onSubmitted: (text) {
 
                 if(text == emailController.text)
@@ -386,7 +431,7 @@ class _CriarContaTelaState extends State<CriarContaTela> {
              FlatButton(
 
               splashColor: Colors.black,
-              onPressed: (){
+              onPressed: ()  async {
                 if(
                 validarNome(nomeController.text)
                 && validarCPF(cpfController.text)
@@ -395,8 +440,46 @@ class _CriarContaTelaState extends State<CriarContaTela> {
                 && validarSenha(senhaController.text)
                 && senhaController.text == confirmsenhaController.text
                 && emailController.text == confirmemailController.text
-                );else{
+                ){
+                  FocusScope.of(context).requestFocus(new FocusNode());
+                    showProcessingDialog(context);
+                    Response r =  await cadastrarPaciente(nomeController.text,
+                        emailController.text,
+                        cpfController.text.replaceAll("-", "").replaceAll(".", ""),
+                        senhaController.text,
+                        DateFormat("dd/MM/yyyy").parse(dateController.text).toIso8601String());
+                      Navigator.pop(context);
+                       if(r != null){
+                         if(r.statusCode == 204 || r.statusCode == 200) {
+                           _scaffoldKey.currentState.showSnackBar(SnackBar(
+                             content: Text("Conta criada com sucesso!"),
+                             backgroundColor: Colors.green,
+                           ));
+                           await Future.delayed(Duration(seconds: 3));
+                           Navigator.pop(context);
+                         }
+                          if(r.statusCode == 400 )
+                          _scaffoldKey.currentState.showSnackBar(SnackBar(
+                          content: Text("Não foi possível criar a conta. Email ou CPF já estão em uso."),
+                          backgroundColor: Colors.red,
+                          ));
+                           }
+                       else{
+                         _scaffoldKey.currentState.showSnackBar(SnackBar(
+                           content: Text("Por Favor, Verififique sua conexão com a internet."),
+                           backgroundColor: Colors.red,
+                         ));
+
+                       }
+
+
+
+
+
+
+                }else{
                   setState(() {
+
                     nomeControl = validarNome(nomeController.text);
                     cpfControl = validarCPF(cpfController.text);
                     emailControl = validarEmail(emailController.text);

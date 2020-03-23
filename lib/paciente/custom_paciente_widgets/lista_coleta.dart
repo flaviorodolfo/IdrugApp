@@ -1,28 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:idrug/util/itens_lista.dart';
+import 'package:idrug/to/coleta_to.dart';
+
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 
 
 class ListaAguardandoColeta extends StatefulWidget {
-  var listaAguardandoColeta = <ListaColeta>[];
+  List<ColetaTO> coletas ;
 
-  ListaAguardandoColeta({Key key, @required this.listaAguardandoColeta}) : super(key: key);
+  ListaAguardandoColeta({Key key, @required this.coletas}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _ListaAguardandoColetaState(listaAguardandoColeta: listaAguardandoColeta);
+    return _ListaAguardandoColetaState(coletas: coletas);
   }
 
 }
 
 class _ListaAguardandoColetaState extends State<ListaAguardandoColeta>{
-  var listaAguardandoColeta = <ListaColeta>[];
+  List<ColetaTO> coletas;
 
-  _ListaAguardandoColetaState({@required this.listaAguardandoColeta}) ;
+  _ListaAguardandoColetaState({@required this.coletas}) ;
 
 
   @override
@@ -31,7 +32,7 @@ class _ListaAguardandoColetaState extends State<ListaAguardandoColeta>{
     return ListView.builder(
 
       padding: EdgeInsets.all(10.0),
-      itemCount: listaAguardandoColeta.length,
+      itemCount: coletas.length,
       itemBuilder: (BuildContext context, int index) {
         return Card(
           child: Padding(
@@ -45,7 +46,7 @@ class _ListaAguardandoColetaState extends State<ListaAguardandoColeta>{
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        listaAguardandoColeta[index].medicamento,
+                        coletas[index].produto,
                         style: TextStyle(
                           fontSize: 16.0,
                           color: Colors.black,
@@ -55,7 +56,7 @@ class _ListaAguardandoColetaState extends State<ListaAguardandoColeta>{
                         height: 5.0,
                       ),
                       Text(
-                        listaAguardandoColeta[index].nomeFarmacia,
+                        coletas[index].farmaciaTO.nome,
                         style: TextStyle(
                           fontSize: 14.0,
                           color: Colors.grey,
@@ -64,23 +65,23 @@ class _ListaAguardandoColetaState extends State<ListaAguardandoColeta>{
                       SizedBox(
                         height: 5.0,
                       ),
-                      Text(
-                        listaAguardandoColeta[index].endereco,
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: Colors.grey,
-                        ),
-                      ),
+//                      Text(
+//                        coletas[index].endereco,
+//                        style: TextStyle(
+//                          fontSize: 14.0,
+//                          color: Colors.grey,
+//                        ),
+//                      ),
                       SizedBox(
                         height: 5.0,
                       ),
-                      Text(
-                        listaAguardandoColeta[index].dataLimite,
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: Colors.grey,
-                        ),
-                      ),
+//                      Text(
+//                        coletas[index].,
+//                        style: TextStyle(
+//                          fontSize: 14.0,
+//                          color: Colors.grey,
+//                        ),
+//                      ),
                     ],
                   ),
                 ),
@@ -102,8 +103,7 @@ class _ListaAguardandoColetaState extends State<ListaAguardandoColeta>{
 
 
                                   child: QrImage(
-                                    data: listaAguardandoColeta[index].codigoColeta,
-
+                                    data: coletas[index].id.toString(),
                                     version: QrVersions.auto,
                                     size: 50,
                                   ),
@@ -111,7 +111,7 @@ class _ListaAguardandoColetaState extends State<ListaAguardandoColeta>{
                                   width: MediaQuery.of(context).size.width*0.5 ,
                                 ),
                                 Text(
-                                    "Para realizar a coleta diriga-se até a farmácia indicada"
+                                    "Para realizar a coleta dirija-se até a farmácia indicada"
                                         " e apresente esse código ao responsável."),
                               ],
                             ),
@@ -123,9 +123,9 @@ class _ListaAguardandoColetaState extends State<ListaAguardandoColeta>{
                             actions: <Widget>[
                               FlatButton(
                                 onPressed: (){
-                                  // _launchMapsUrl(-10.9221519, -37.107655);
-                                  MapsLauncher.launchQuery(listaAguardandoColeta[index].endereco);
-                                  Navigator.pop(context);
+//                                  // _launchMapsUrl(-10.9221519, -37.107655);
+//                                  MapsLauncher.launchQuery(listaAguardandoColeta[index].endereco);
+//                                  Navigator.pop(context);
 
                                 },
                                 padding: EdgeInsets.only(top: 12,bottom: 12),
@@ -141,7 +141,7 @@ class _ListaAguardandoColetaState extends State<ListaAguardandoColeta>{
                                 onPressed: (){
                                   //TODO CANCELAR COLETA
                                   setState(() {
-                                    listaAguardandoColeta.removeAt(index);
+                                    coletas.removeAt(index);
                                   });
 
                                   Navigator.pop(context);
