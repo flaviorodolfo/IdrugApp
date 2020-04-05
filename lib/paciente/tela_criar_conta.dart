@@ -7,7 +7,7 @@ import 'package:http/http.dart';
 import 'package:idrug/cliente/cadastrar_paciente.dart';
 
 
-import 'package:idrug/util/validadores.dart';
+import 'package:idrug/util/util.dart';
 import 'package:intl/intl.dart';
 
 class CriarContaTela extends StatefulWidget {

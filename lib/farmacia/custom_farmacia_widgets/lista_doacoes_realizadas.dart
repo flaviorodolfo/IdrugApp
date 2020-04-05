@@ -5,23 +5,23 @@ import 'package:intl/intl.dart';
 
 
 
-class ListaDoacoesRecebidas extends StatefulWidget {
+class ListaDoacoesRealizadas extends StatefulWidget {
    List<DoacaoTO> doacoes;
 
-  ListaDoacoesRecebidas({Key key, @required this.doacoes}) : super(key: key);
+  ListaDoacoesRealizadas({Key key, @required this.doacoes}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _ListaDoacoesRecebidasState(doacoes: doacoes);
+    return _ListaDoacoesRealizadasState(doacoes: doacoes);
   }
 
 }
 
-class _ListaDoacoesRecebidasState extends State<ListaDoacoesRecebidas>{
+class _ListaDoacoesRealizadasState extends State<ListaDoacoesRealizadas>{
   List<DoacaoTO> doacoes;
 
-  _ListaDoacoesRecebidasState({@required this.doacoes}) ;
+  _ListaDoacoesRealizadasState({@required this.doacoes}) ;
 
 
   @override

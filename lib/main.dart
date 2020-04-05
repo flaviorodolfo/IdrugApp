@@ -4,14 +4,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:idrug/farmacia/tela_farmacia_logado.dart';
 import 'package:idrug/paciente/tela_usuario_logado.dart';
 import 'package:idrug/paciente/tela_usuario_login.dart';
+import 'package:idrug/to/coleta_to.dart';
 import 'package:idrug/to/paciente_to.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'farmacia/tela_farmacia.dart';
+import 'farmacia/tela_farmacia_login.dart';
 
 void main()=>runApp(MyApp());
 
@@ -26,22 +28,27 @@ class _MyAppState extends State<MyApp> {
   @override
   bool loaded = false;
   PacienteTO paciente;
-
+  FarmaciaTO farmacia;
   Future<void> carregarDados() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if(prefs.getString('user')!= null) {
-      if(prefs.getString('user').contains("cpf"))
+      if(prefs.getString('user').contains("cpf")) {
         paciente = PacienteTO.fromJson(jsonDecode(prefs.getString('user')));
-      loaded = true;
+        loaded = true;
+      }
+      if(prefs.getString('user').contains("cnpj")) {
+        farmacia = FarmaciaTO.fromJson(jsonDecode(prefs.getString('user')));
+        loaded = true;
+      }
     }
-    else{
 
-    }
 
   }
   _getClassLoader(){
-    return
-    PacienteLogado(paciente);
+    if(paciente != null)
+      return PacienteLogado(paciente);
+    if(farmacia != null)
+      return FarmaciaLogado(farmacia);
   }
 
   Widget build(BuildContext context) {

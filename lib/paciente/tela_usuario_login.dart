@@ -9,7 +9,7 @@ import 'package:idrug/paciente/tela_criar_conta.dart';
 import 'package:idrug/paciente/tela_usuario_logado.dart';
 import 'package:idrug/cliente/validar_usuario.dart';
 import 'package:idrug/to/paciente_to.dart';
-import 'package:idrug/util/validadores.dart';
+import 'package:idrug/util/util.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

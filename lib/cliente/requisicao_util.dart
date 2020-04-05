@@ -22,3 +22,9 @@ final String postRemoverInteresseURL = _urlServico+"/doacao/interesse/deletar";
 final String getConsultarColetasURL = _urlServico+"/doacao/coleta/resgatar";
 @protected
 final String getConsultarDoacoesURL = _urlServico+"/doacao/resgatar";
+@protected
+final String getResgatarMedicamentoDisponivel = _urlServico+"/doacao/medicamentos/disponiveis/resgatar";
+@protected
+final String postCadastrarMedicamentoDisponivel = _urlServico+"/doacao/medicamentos/disponiveis/cadastrar";
+@protected
+final String postConfirmarColeta = _urlServico+"/doacao/coleta/confirmar";

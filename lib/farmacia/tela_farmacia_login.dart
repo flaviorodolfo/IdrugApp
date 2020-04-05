@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:convert' as tela_farmacia_login;
 
 import 'package:cpf_cnpj_validator/cnpj_validator.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:http/http.dart';
+import 'package:idrug/farmacia/tela_farmacia_logado.dart';
 import 'package:idrug/paciente/tela_criar_conta.dart';
 import 'package:idrug/paciente/tela_usuario_logado.dart';
 import 'package:idrug/cliente/validar_usuario.dart';
+import 'package:idrug/to/coleta_to.dart';
 import 'package:idrug/to/paciente_to.dart';
 import 'package:idrug/util/util.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -204,7 +206,7 @@ class _FarmaciaTelaState extends State<FarmaciaTela>{
                                       });
                                       r = await validarUsuario(
                                           cnpj.replaceAll("-", "").replaceAll(
-                                              ".", ""), senha);
+                                              ".", "").replaceAll("/", ""), senha);
                                       setState(() {
                                         loading = false;
                                       });
@@ -218,13 +220,13 @@ class _FarmaciaTelaState extends State<FarmaciaTela>{
                                       if (r.statusCode == 200 ||
                                           r.statusCode == 204) {
                                         SharedPreferences prefs = await SharedPreferences.getInstance();
-                                        PacienteTO aux = PacienteTO.fromJson(jsonDecode(r.body));
-                                        prefs.setString('user', jsonEncode(aux.toJson()));
+                                        FarmaciaTO aux = FarmaciaTO.fromJson(tela_farmacia_login.jsonDecode(r.body));
+                                        prefs.setString('user', tela_farmacia_login.jsonEncode(aux.toJson()));
                                         Navigator.of(context)
                                             .pushAndRemoveUntil(
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    PacienteLogado(aux)),
+                                                    FarmaciaLogado(aux)),
                                                 (
                                                 Route<dynamic> route) => false);
                                       }

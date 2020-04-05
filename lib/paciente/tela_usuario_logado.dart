@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:idrug/cliente/consultar_coleta.dart';
-import 'package:idrug/cliente/consultar_doacoes_recebidas.dart';
+import 'package:idrug/cliente/consultar_doacoes.dart';
 import 'package:idrug/cliente/consultar_interesses.dart';
 
 import 'package:idrug/cliente/resgatar_medicamento.dart';
 import 'package:idrug/main.dart';
-import 'package:idrug/paciente/custom_paciente_widgets/auto_completar.dart';
+import 'package:idrug/paciente/custom_paciente_widgets/registrar_interesse.dart';
 import 'package:idrug/to/DoacaoTO.dart';
 import 'package:idrug/to/coleta_to.dart';
 import 'package:idrug/to/interesse_to.dart';
@@ -16,7 +16,7 @@ import 'package:idrug/to/medicamento_to.dart';
 import 'package:idrug/to/paciente_to.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'custom_paciente_widgets/lista_coleta.dart';
+import 'custom_paciente_widgets/lista_aguardando_coleta.dart';
 import 'custom_paciente_widgets/lista_doacoes_recebidas.dart';
 import 'custom_paciente_widgets/lista_interesses.dart';
 

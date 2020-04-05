@@ -8,9 +8,9 @@ Future<http.Response> cadastrarDisponibilidadeMedicamento(cnpj,produto,dosagem,d
 
   Map data = {
     'cnpj': cnpj,
-    'produto': dataValidade,
+    'produto': produto,
     'dosagem': dosagem,
-    'dataValidade': produto,
+    'dataValidade': dataValidade,
     'quantidade': quantidade
   };
 
@@ -18,7 +18,7 @@ Future<http.Response> cadastrarDisponibilidadeMedicamento(cnpj,produto,dosagem,d
   http.Response response;
   try {
     response = await http.post(
-      postCadastrarPacienteURL,
+      postCadastrarMedicamentoDisponivel,
       headers: {"Content-Type": "application/json"},
       body: body,
     ).timeout(Duration(seconds: 10));
