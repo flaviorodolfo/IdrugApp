@@ -6,13 +6,13 @@ import 'package:idrug/to/interesse_to.dart';
 
 
 
-Future<http.Response> consultarDoacoes(cpf) async {
+Future<http.Response> consultarDoacoes(identificador) async {
 
 
   http.Response response;
   try {
     response = await http.get(
-      getConsultarDoacoesURL+'?cpf='+cpf,
+      getConsultarDoacoesURL+'?identificador='+identificador,
       headers: {"Content-Type": "application/json"},
     ).timeout(Duration(seconds: 10));
   }catch(SocketException){

@@ -6,12 +6,12 @@ import 'package:idrug/cliente/requisicao_util.dart';
 
 
 
-Future<http.Response> consultarColeta(cpf) async {
+Future<http.Response> consultarColeta(identificador) async {
 
   http.Response response;
   try {
     response = await http.get(
-      getConsultarColetasURL+'?cpf='+cpf,
+      getConsultarColetasURL+'?identificador='+identificador,
       headers: {"Content-Type": "application/json"},
     ).timeout(Duration(seconds: 15));
   }catch(SocketException){

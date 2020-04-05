@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:idrug/to/coleta_to.dart';
@@ -76,7 +79,7 @@ class _ListaAguardandoColetaState extends State<ListaAguardandoColeta>{
                         height: 5.0,
                       ),
 //                      Text(
-//                        coletas[index].,
+//                        coletas[index]., // disponível até
 //                        style: TextStyle(
 //                          fontSize: 14.0,
 //                          color: Colors.grey,
@@ -103,7 +106,7 @@ class _ListaAguardandoColetaState extends State<ListaAguardandoColeta>{
 
 
                                   child: QrImage(
-                                    data: coletas[index].id.toString(),
+                                    data: sha256.convert(utf8.encode(coletas[index].id.toString())).toString() ,
                                     version: QrVersions.auto,
                                     size: 50,
                                   ),
