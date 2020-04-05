@@ -27,7 +27,9 @@ class _ListaDoacoesRecebidasState extends State<ListaDoacoesRecebidas>{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return ListView.builder(
+    return doacoes.isEmpty?
+    Center(child: Text("Você ainda nao recebeu nenhuma doação.",style: TextStyle(fontSize: 18),),):
+    ListView.builder(
 
       padding: EdgeInsets.all(10),
       itemCount: doacoes.length,

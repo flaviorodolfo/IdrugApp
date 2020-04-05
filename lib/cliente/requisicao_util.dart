@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 
 
 @protected
-final String _urlServico = 'http://142.11.219.177:8080/idrugWS/idrugWS/api';
+final String _urlServico = 'http://142.11.219.177/:8080/idrugWS/idrugWS/api';
 @protected
 final String postCadastrarPacienteURL = _urlServico+'/usuario/cadastrar-paciente';
 @protected

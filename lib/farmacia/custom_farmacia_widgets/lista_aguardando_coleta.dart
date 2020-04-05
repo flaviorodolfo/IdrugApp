@@ -72,7 +72,9 @@ class _ListaColetasPendenteState extends State<ListaColetasPendente>{
     // TODO: implement build
     return Scaffold(
       key: _scaffoldKey,
-      body: ListView.builder(
+      body: coletas.isEmpty?
+      Center(child: Text("Ainda não existe coleta pendente.",style: TextStyle(fontSize: 18),),):
+      ListView.builder(
 
         padding: EdgeInsets.all(10.0),
         itemCount: coletas.length,

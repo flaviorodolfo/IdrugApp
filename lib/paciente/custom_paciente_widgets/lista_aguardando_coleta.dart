@@ -72,8 +72,9 @@ class _ListaAguardandoColetaState extends State<ListaAguardandoColeta>{
     // TODO: implement build
     return Scaffold(
       key: _scaffoldKey,
-      body: ListView.builder(
-
+      body: coletas.isEmpty?
+      Center(child: Text("Ainda não existe nenhuma coleta pendente.",style: TextStyle(fontSize: 18),),):
+      ListView.builder(
         padding: EdgeInsets.all(10.0),
         itemCount: coletas.length,
         itemBuilder: (BuildContext context, int index) {
